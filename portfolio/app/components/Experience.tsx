@@ -1,12 +1,12 @@
 const experiences = [
     {
-      date: 'May 2025 — PRESENT',
+      date: 'May 2025 — August 2025',
       title: 'ATS Corporation',
       companyLink: 'https://www.atslifesciences.com/',
       position: 'Software Engineer Intern',
       description:
-        'Working on the UI for Symphoni, a digital assembly automation technology that features an unmatched combination of speed, versatiltiy, and precision.',
-      tech: ['TypeScript', 'React', '.NET', 'Tailwind CSS', ],
+        '🔨 Worked on a Configuration tool for Symphoni (ATS’s automation platform).',
+      tech: ['React', 'TypeScript', 'ASP.NET Core MVC', 'EF Core', 'Microsoft SQL Server'],
     },
     {
       date: 'Jan 2025 — May 2025',
@@ -14,26 +14,26 @@ const experiences = [
       companyLink: 'https://tmmc.ca/en/',
       position: 'Information Systems Engineering Intern',
       description:
-        'Worked on refining a LSTM model to predict anomalies in machinery. Also worked on a linear regression model to predict power consumption for certain shops.',
+        '🐈 Contributed to CAT (Current Analysis Tool) and worked on a predictive model for power consumption at a primary production line.',
       tech: ['Python', 'Redis', 'TensorFlow', 'Docker', 'Pandas', 'Numpy'],
     },
     {
         date: 'Jun 2024 — Aug 2024',
         title: 'University of Guelph',
-        companyLink: 'https://cloudflare.com',
+        companyLink: 'https://www.uoguelph.ca/',
         position: 'Website Redesign Coordinator Intern',
         description:
-          '',
-        tech: ['Python', 'AWS', 'Splunk', 'Burp Suite'],
+          '🌿 Led web redesign initiatives for multiple departments within the OAC (Ontario Agriculture College).',
+        tech: ['JavaScript', 'HTML/CSS', 'Drupal'],
       },
       {
         date: 'Sep 2023 — Dec 2023',
-        title: 'NCR Voyix',
-        companyLink: 'https://cloudflare.com',
+        title: 'Candescent (formerly NCR Voyix)',
+        companyLink: 'https://www.candescent.com/',
         position: 'Software Engineer Intern',
         description:
-          '',
-        tech: ['Docker', 'Java', 'Spring Boot', 'Kubernetes', 'GCP'],
+          '💳 Worked on microservice endpoints for customer transactions.',
+        tech: ['Docker', 'Java', 'Spring Boot', 'GCP', 'Kubernetes']
       },
   ];
 
@@ -59,7 +59,7 @@ const experiences = [
               <p className="text-gray-300 text-sm group-hover:text-white transition-colors duration-300">{exp.description}</p>
   
               <div className="text-center">
-                <div className="flex flex-wrap justify-center gap-2 mt-2">
+                <div className="flex flex-wrap justify-center gap-2 mt-4">
                   {exp.tech.map((tech, techIdx) => (
                     <span
                       key={techIdx}

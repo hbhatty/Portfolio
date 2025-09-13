@@ -18,7 +18,6 @@ export default function Sidebar() {
             }
         );
 
-        // Observe all sections
         document.querySelectorAll('section[id]').forEach((section) => {
             observer.observe(section);
         });
@@ -32,8 +31,8 @@ export default function Sidebar() {
                 <span className="text-3xl font-bold">C:\Users\harsh{'>'}</span>
                 <span className="inline-block w-[8px] h-[40px] bg-white cursor-blink ml-1 -my-2">
                 </span>
-                <h2 className="text-xl mt-2">Software Engineer</h2>
-                <p className="text-gray-400 mt-6">I'm a software engineer driven by curiosity and a focus on building scalable, efficient systems.</p>
+                <h2 className="text-xl mt-1">Full-Time Learner</h2>
+                <p className="text-gray-400 mt-6">I like to build and learn things I find interesting.</p>
                 <nav className="mt-20 space-y-4 text-sm tracking-widest">
                     <a 
                         href="#about" 
