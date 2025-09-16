@@ -33,7 +33,7 @@ export default function Sidebar() {
                 </span>
                 <h2 className="text-xl mt-1">Full-Time Learner</h2>
                 <p className="text-gray-400 mt-6">I like to build and learn things I find interesting.</p>
-                <nav className="mt-20 space-y-4 text-sm tracking-widest">
+                <nav className="mt-28 space-y-4 text-sm tracking-widest pl-14">
                     <a 
                         href="#about" 
                         className="block relative group pl-0"

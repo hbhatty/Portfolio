@@ -4,7 +4,7 @@ const projects = [
       image: '/images/companydashboard.png',
       description:
         'A comprehensive multi-role dashboard that enables users to view and manage different departments, student information, and administrative data through an intuitive interface.',
-      tech: ['TypeScript', 'React', '.NET', 'Tailwind CSS'],
+      tech: ['Python (Flask)', 'HTML/CSS', 'Pandas', 'PostgreSQL'],
       link: 'https://github.com/hbhatty/pokemon-tcg'
     },
     {
@@ -12,7 +12,7 @@ const projects = [
         image: '/images/tcgpic.png',
         description:
           'An interactive Pokemon card search platform where users can search for their favorite Pokemon and view all associated cards. Features include filtering by rarity and artist, user authentication, and the ability to save favorite cards to a personal collection.',
-        tech: ['TypeScript', 'React', '.NET', 'Tailwind CSS'],
+        tech: ['TypeScript', 'React', 'Tailwind CSS', 'PostgreSQL', 'Docker'],
         link: 'https://github.com/hbhatty/pokemon-tcg'
       },
   ];
@@ -62,15 +62,17 @@ const projects = [
               </div>
               <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{project.description}</p>
   
-              <div className="flex flex-wrap gap-2 mt-2">
-                {project.tech.map((tech, techIdx) => (
-                  <span
-                    key={techIdx}
-                    className="bg-cyan-900/40 text-cyan-300 px-3 py-1 rounded-full text-xs font-mono group-hover:bg-cyan-900/60 transition-colors duration-300"
-                  >
-                    {tech}
-                  </span>
-                ))}
+              <div className="text-center">
+                <div className="flex flex-wrap justify-center gap-2 mt-4">
+                  {project.tech.map((tech, techIdx) => (
+                    <span
+                      key={techIdx}
+                      className="bg-cyan-900/40 text-cyan-300 px-3 py-1 rounded-full text-xs font-mono group-hover:bg-cyan-900/60 transition-colors duration-300"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </a>
