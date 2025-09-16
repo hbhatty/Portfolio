@@ -8,6 +8,7 @@ export default function MainContent() {
         <div className="space-y-4 text-gray-300 leading-relaxed">
           <p>
             Welcome to my corner of the internet!
+            Grab a coffee ☕ get comfy and enjoy the ride!
           </p>
           <p>
             I'm Harshdeep Bhatty, a full-time learner of all things.
