@@ -104,7 +104,7 @@ const experiences = [
         ))}
         <div className="flex justify-center mt-8">
           <a
-            href="/resume.pdf"
+            href={"https://drive.google.com/file/d/1GVqTGpyElhZw2k9rmPUkY3FvP4B6S7C0/view?usp=sharing"}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center px-6 py-3 rounded-lg bg-cyan-900/40 text-cyan-300 hover:bg-cyan-900/60 transition-colors duration-300 font-mono"
