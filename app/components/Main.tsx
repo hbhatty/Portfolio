@@ -2,10 +2,10 @@ import ExperienceSection from "./Experience";
 import Projects from "./Projects";
 export default function MainContent() {
   return (
-    <div className="w-2/3 py-20 space-y-20 text-gray-300">
+    <div className="w-2/3 py-20 space-y-20 text-gray-100">
       <section id="about" className="w-[120%]">
         <h2 className="text-3xl font-bold text-white mb-6">About Me</h2>
-        <div className="space-y-4 text-gray-300 leading-relaxed">
+        <div className="space-y-4 text-gray-100 leading-relaxed">
           <p>
             Welcome to my corner of the internet!
           </p>

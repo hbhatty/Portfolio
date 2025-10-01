@@ -26,13 +26,13 @@ export default function Sidebar() {
     }, []);
 
     return (
-        <div className="h-screen py-20 text-white">
+        <div className="h-screen py-20 text-gray-100">
             <div>
                 <span className="text-3xl font-bold">C:\Users\harsh{'>'}</span>
                 <span className="inline-block w-[8px] h-[40px] bg-white cursor-blink ml-1 -my-2">
                 </span>
-                <h2 className="text-xl mt-1">Full-Time Learner</h2>
-                <p className="text-gray-400 mt-6">I like to build and learn things I find interesting.</p>
+                <h2 className="text-xl mt-1">🤓 Full-Time Learner</h2>
+                <p className="text-gray-200 mt-6">I like to learn and build things I find interesting.</p>
                 <nav className="mt-28 space-y-4 text-sm tracking-widest pl-14">
                     <a 
                         href="#about" 
@@ -87,7 +87,7 @@ export default function Sidebar() {
                             href="https://linkedin.com/in/hbhatty" 
                             target="_blank" 
                             rel="noreferrer"
-                            className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+                            className="text-gray-200 hover:text-cyan-400 transition-colors duration-300"
                             aria-label="LinkedIn"
                         >
                             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -99,7 +99,7 @@ export default function Sidebar() {
                             href="https://github.com/hbhatty" 
                             target="_blank" 
                             rel="noreferrer"
-                            className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+                            className="text-gray-200 hover:text-cyan-400 transition-colors duration-300"
                             aria-label="GitHub"
                         >
                             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -109,7 +109,7 @@ export default function Sidebar() {
                         
                         <a 
                             href="mailto:harshbhatty2@gmail.com" 
-                            className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
+                            className="text-gray-200 hover:text-cyan-400 transition-colors duration-300"
                             aria-label="Email"
                         >
                             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
