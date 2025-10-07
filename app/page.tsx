@@ -1,5 +1,6 @@
 import Sidebar from "./components/Sidebar";
 import MainContent from "./components/Main";
+import InfoIcon from "./components/InfoIcon";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <InfoIcon />
     </div>
   );
 }

@@ -7,7 +7,7 @@ export default function MainContent() {
         <h2 className="text-3xl font-bold text-white mb-6">About Me</h2>
         <div className="space-y-4 text-gray-100 leading-relaxed">
           <p>
-            Welcome to my corner of the internet!
+            Welcome to my home directory!
           </p>
           <p>
             Grab a coffee ☕ get comfy 🛌 and enjoy my site!
