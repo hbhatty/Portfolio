@@ -5,16 +5,27 @@ import { useState } from 'react';
 export default function InfoIcon() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const currentRelease = {
-    version: "v1.0.1",
-    date: "Oct 07, 2025",
-    highlights: [
-      "Added release notes modal"
-    ]
-  };
+  const releases = [
+    {
+      version: "v1.0.2",
+      date: "Oct 20, 2025",
+      highlights: [
+        "Changed meta data and updated resume link"
+      ],
+      isCurrent: true
+    },
+    {
+      version: "v1.0.1",
+      date: "Oct 07, 2025",
+      highlights: [
+        "Added release notes modal"
+      ],
+      isCurrent: false
+    }
+  ];
 
   const upcomingFeatures = [
-    "Add an actual colour scheme to site",
+    "Update visuals (fonts, colours, etc.)",
     "Add a dynamic version tracker",
     "Add newer projects"
   ];
@@ -53,21 +64,45 @@ export default function InfoIcon() {
             <div className="p-6 overflow-y-auto max-h-[60vh]">
               <div className="mb-8">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  🚀 Current Release
+                  📋 Release History
                 </h3>
-                <div className="bg-gradient-to-r from-purple-800/40 to-purple-900/40 rounded-xl p-5 border border-purple-700/30">
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="font-bold text-purple-300 text-lg">{currentRelease.version}</span>
-                    <span className="text-sm text-gray-400 bg-gray-700 px-3 py-1 rounded-full">{currentRelease.date}</span>
-                  </div>
-                  <ul className="space-y-3">
-                    {currentRelease.highlights.map((highlight, index) => (
-                      <li key={index} className="text-gray-100 text-sm flex items-center">
-                        <span className="text-green-400 mr-3 text-lg">✓</span>
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="space-y-4">
+                  {releases.map((release, index) => (
+                    <div 
+                      key={index}
+                      className={`rounded-xl p-5 border ${
+                        release.isCurrent 
+                          ? 'bg-gradient-to-r from-purple-800/40 to-purple-900/40 border-purple-700/30' 
+                          : 'bg-gradient-to-r from-gray-800/40 to-gray-900/40 border-gray-600/30'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center gap-3">
+                          <span className={`font-bold text-lg ${
+                            release.isCurrent ? 'text-purple-300' : 'text-gray-300'
+                          }`}>
+                            {release.version}
+                          </span>
+                          {release.isCurrent && (
+                            <span className="text-xs bg-purple-600 text-white px-2 py-1 rounded-full">
+                              Current
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-sm text-gray-400 bg-gray-700 px-3 py-1 rounded-full">
+                          {release.date}
+                        </span>
+                      </div>
+                      <ul className="space-y-3">
+                        {release.highlights.map((highlight, highlightIndex) => (
+                          <li key={highlightIndex} className="text-gray-100 text-sm flex items-center">
+                            <span className="text-green-400 mr-3 text-lg">✓</span>
+                            {highlight}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
 
