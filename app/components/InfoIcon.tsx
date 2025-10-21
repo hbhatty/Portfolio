@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function InfoIcon() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('releases');
 
   const releases = [
     {
@@ -61,66 +62,93 @@ export default function InfoIcon() {
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto max-h-[60vh]">
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  📋 Release History
-                </h3>
-                <div className="space-y-4">
-                  {releases.map((release, index) => (
-                    <div 
-                      key={index}
-                      className={`rounded-xl p-5 border ${
-                        release.isCurrent 
-                          ? 'bg-gradient-to-r from-purple-800/40 to-purple-900/40 border-purple-700/30' 
-                          : 'bg-gradient-to-r from-gray-800/40 to-gray-900/40 border-gray-600/30'
-                      }`}
-                    >
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center gap-3">
-                          <span className={`font-bold text-lg ${
-                            release.isCurrent ? 'text-purple-300' : 'text-gray-300'
-                          }`}>
-                            {release.version}
-                          </span>
-                          {release.isCurrent && (
-                            <span className="text-xs bg-purple-600 text-white px-2 py-1 rounded-full">
-                              Current
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-sm text-gray-400 bg-gray-700 px-3 py-1 rounded-full">
-                          {release.date}
-                        </span>
-                      </div>
-                      <ul className="space-y-3">
-                        {release.highlights.map((highlight, highlightIndex) => (
-                          <li key={highlightIndex} className="text-gray-100 text-sm flex items-center">
-                            <span className="text-green-400 mr-3 text-lg">✓</span>
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="flex border-b border-gray-600">
+              <button
+                onClick={() => setActiveTab('releases')}
+                className={`flex-1 px-6 py-3 text-sm font-medium transition-colors duration-200 ${
+                  activeTab === 'releases'
+                    ? 'text-purple-300 border-b-2 border-purple-500 bg-purple-900/20'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/20'
+                }`}
+              >
+                📋 Releases
+              </button>
+              <button
+                onClick={() => setActiveTab('todos')}
+                className={`flex-1 px-6 py-3 text-sm font-medium transition-colors duration-200 ${
+                  activeTab === 'todos'
+                    ? 'text-purple-300 border-b-2 border-purple-500 bg-purple-900/20'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/20'
+                }`}
+              >
+                🎯 To-dos
+              </button>
+            </div>
 
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  🎯 To-do
-                </h3>
-                <div className="bg-gradient-to-r from-gray-800/40 to-gray-900/40 rounded-xl p-5 border border-gray-600/30">
-                  <ul className="space-y-3">
-                    {upcomingFeatures.map((feature, index) => (
-                      <li key={index} className="text-gray-200 text-sm flex items-center">
-                        <span className="text-yellow-400 mr-3 text-lg">○</span>
-                        {feature}
-                      </li>
+            <div className="p-6 overflow-y-auto max-h-[60vh]">
+              {activeTab === 'releases' && (
+                <div>
+                  <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+                    📋 Release History
+                  </h3>
+                  <div className="space-y-4">
+                    {releases.map((release, index) => (
+                      <div 
+                        key={index}
+                        className={`rounded-xl p-5 border ${
+                          release.isCurrent 
+                            ? 'bg-gradient-to-r from-purple-800/40 to-purple-900/40 border-purple-700/30' 
+                            : 'bg-gradient-to-r from-gray-800/40 to-gray-900/40 border-gray-600/30'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center mb-4">
+                          <div className="flex items-center gap-3">
+                            <span className={`font-bold text-lg ${
+                              release.isCurrent ? 'text-purple-300' : 'text-gray-300'
+                            }`}>
+                              {release.version}
+                            </span>
+                            {release.isCurrent && (
+                              <span className="text-xs bg-purple-600 text-white px-2 py-1 rounded-full">
+                                Current
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-sm text-gray-400 bg-gray-700 px-3 py-1 rounded-full">
+                            {release.date}
+                          </span>
+                        </div>
+                        <ul className="space-y-3">
+                          {release.highlights.map((highlight, highlightIndex) => (
+                            <li key={highlightIndex} className="text-gray-100 text-sm flex items-center">
+                              <span className="text-green-400 mr-3 text-lg">✓</span>
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {activeTab === 'todos' && (
+                <div>
+                  <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+                    🎯 To-dos
+                  </h3>
+                  <div className="bg-gradient-to-r from-gray-800/40 to-gray-900/40 rounded-xl p-5 border border-gray-600/30">
+                    <ul className="space-y-3">
+                      {upcomingFeatures.map((feature, index) => (
+                        <li key={index} className="text-gray-200 text-sm flex items-center">
+                          <span className="text-yellow-400 mr-3 text-lg">○</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
