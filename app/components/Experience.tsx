@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const clientID = process.env.CLIENT_ID;
 const experiences = [
     {
@@ -52,11 +54,13 @@ const experiences = [
               {exp.date}
               {exp.image && (
                 <div className="mt-4 w-32 h-32 overflow-hidden flex items-center justify-center ml-6 rounded-full">
-                  <img 
+                  <Image 
                     src={exp.image} 
                     alt={`${exp.title} logo`}
                     className="w-full h-full object-cover rounded-full"
-                    loading="lazy"
+                    width={128}
+                    height={128}
+                    unoptimized
                   />
                 </div>
               )}

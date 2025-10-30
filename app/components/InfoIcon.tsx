@@ -8,12 +8,20 @@ export default function InfoIcon() {
 
   const releases = [
     {
+      version: "v1.0.3",
+      date: "Oct 29, 2025",
+      highlights: [
+        "Change img tag to next Image component"
+      ],
+      isCurrent: true
+    },
+    {
       version: "v1.0.2",
       date: "Oct 20, 2025",
       highlights: [
         "Changed meta data and updated resume link"
       ],
-      isCurrent: true
+      isCurrent: false
     },
     {
       version: "v1.0.1",

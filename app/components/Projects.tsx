@@ -1,3 +1,4 @@
+import Image from 'next/image';
 const projects = [
     {
       name: 'Company Dashboard',  
@@ -32,10 +33,13 @@ const projects = [
             <div className="w-full md:w-2/4 text-sm text-gray-400 font-mono">
               {project.image && (
                 <div className="relative inline-block group-hover:bg-white/10 rounded-lg transition-all duration-300 p-0.5">
-                  <img 
+                  <Image 
                     src={project.image} 
                     alt={`${project.name} screenshot`}
                     className="w-48 h-32 object-cover rounded-lg"
+                    width={192}
+                    height={128}
+                    unoptimized
                   />
                 </div>
               )}
