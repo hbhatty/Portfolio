@@ -31,7 +31,7 @@ export default function Sidebar() {
                 <span className="text-3xl font-bold">C:\Users\harsh{'>'}</span>
                 <span className="inline-block w-[8px] h-[40px] bg-white cursor-blink ml-1 -my-2">
                 </span>
-                <h2 className="text-xl mt-1">🤓 Full-Time Learner</h2>
+                <h2 className="text-xl mt-1">🤓 Builder of curiosities</h2>
                 <p className="text-gray-200 mt-6">I like to learn and build things I find interesting.</p>
                 <nav className="mt-28 space-y-4 text-sm tracking-widest pl-14">
                     <a 
