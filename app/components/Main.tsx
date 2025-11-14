@@ -2,10 +2,10 @@ import ExperienceSection from "./Experience";
 import Projects from "./Projects";
 export default function MainContent() {
   return (
-    <div className="w-2/3 py-20 space-y-20 text-gray-100">
-      <section id="about" className="w-[120%]">
-        <h2 className="text-3xl font-bold text-white mb-6">About Me</h2>
-        <div className="space-y-4 text-gray-100 leading-relaxed">
+    <div className="w-full md:w-2/3 py-10 md:py-20 space-y-12 md:space-y-20 text-gray-100">
+      <section id="about" className="w-full md:w-[120%]">
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">About Me</h2>
+        <div className="space-y-4 text-gray-100 leading-relaxed text-sm md:text-base">
           <p>
             Welcome to my home directory!
           </p>
@@ -30,11 +30,11 @@ export default function MainContent() {
         </div>
       </section>
       <section id="experience">
-        <h2 className="text-3xl font-bold text-white mb-6">Experience</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">Experience</h2>
         <ExperienceSection />
       </section>
       <section id="projects">
-        <h2 className="text-3xl font-bold text-white mb-6">Projects</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">Projects</h2>
         <Projects />
       </section>
     </div>

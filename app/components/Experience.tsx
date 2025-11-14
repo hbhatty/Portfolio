@@ -47,13 +47,13 @@ const experiences = [
 
   export default function ExperienceSection() {
     return (
-      <section id="experience" className="space-y-10 w-[120%]">
+      <section id="experience" className="space-y-8 md:space-y-10 w-full md:w-[120%]">
         {experiences.map((exp, idx) => (
-          <div key={idx} className="group flex flex-col md:flex-row md:items-start gap-6 p-4 rounded-lg transition-all duration-300 hover:bg-white/5">
+          <div key={idx} className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-6 p-4 rounded-lg transition-all duration-300 hover:bg-white/5 active:bg-white/5">
             <div className="w-full md:w-2/4 text-sm text-gray-400 font-mono">
               {exp.date}
               {exp.image && (
-                <div className="mt-4 w-32 h-32 overflow-hidden flex items-center justify-center ml-6 rounded-full">
+                <div className="mt-4 w-24 h-24 md:w-32 md:h-32 overflow-hidden flex items-center justify-center ml-0 md:ml-6 rounded-full">
                   <Image 
                     src={exp.image} 
                     alt={`${exp.title} logo`}
@@ -71,11 +71,11 @@ const experiences = [
                 href={exp.companyLink}
                 target="_blank"
                 rel="noreferrer"
-                className="group/link flex items-center gap-2 text-lg text-white font-semibold hover:text-cyan-400 transition-colors duration-300 flex-shrink-0"
+                className="group/link flex items-center gap-2 text-base md:text-lg text-white font-semibold hover:text-cyan-400 active:text-cyan-400 transition-colors duration-300 flex-shrink-0"
               >
                 {exp.title}
                 <svg 
-                  className="w-4 h-4 text-cyan-400 opacity-0 group-hover/link:opacity-100 transition-opacity duration-300" 
+                  className="w-4 h-4 text-cyan-400 opacity-0 group-hover/link:opacity-100 group-active/link:opacity-100 transition-opacity duration-300" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -88,15 +88,15 @@ const experiences = [
                   />
                 </svg>
               </a>
-              <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{exp.position}</p>
-              <p className="text-gray-300 text-sm group-hover:text-white transition-colors duration-300">{exp.description}</p>
+              <p className="text-xs md:text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{exp.position}</p>
+              <p className="text-gray-300 text-xs md:text-sm group-hover:text-white transition-colors duration-300">{exp.description}</p>
   
               <div className="text-center">
                 <div className="flex flex-wrap justify-center gap-2 mt-4">
                   {exp.tech.map((tech, techIdx) => (
                     <span
                       key={techIdx}
-                      className="bg-cyan-900/40 text-cyan-300 px-3 py-1 rounded-full text-xs font-mono group-hover:bg-cyan-900/60 transition-colors duration-300"
+                      className="bg-cyan-900/40 text-cyan-300 px-2 md:px-3 py-1 rounded-full text-xs font-mono group-hover:bg-cyan-900/60 transition-colors duration-300"
                     >
                       {tech}
                     </span>
@@ -106,12 +106,12 @@ const experiences = [
             </div>
           </div>
         ))}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-6 md:mt-8">
           <a
             href={"https://drive.google.com/file/d/1Jh-CsSTTo0-iOwSCRVq51FGPliRnY7Sd/view?usp=sharing"}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-cyan-900/40 text-cyan-300 hover:bg-cyan-900/60 transition-colors duration-300 font-mono"
+            className="inline-flex items-center px-5 md:px-6 py-2.5 md:py-3 rounded-lg bg-cyan-900/40 text-cyan-300 hover:bg-cyan-900/60 active:bg-cyan-900/60 transition-colors duration-300 font-mono text-sm md:text-base min-h-[44px]"
           >
             View Full Résumé
             <svg
