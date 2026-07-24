@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "harshbhatty.com",
+  title: "Harsh Bhatty",
   description: "My own little cube in the vast universe of the internet",
   viewport: "width=device-width, initial-scale=1",
 };

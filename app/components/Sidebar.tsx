@@ -99,7 +99,7 @@ export default function Sidebar() {
                             <span className={`transition-all duration-300 ${
                                 activeSection === 'about' ? 'text-cyan-400 translate-x-16 md:translate-x-20' : 'group-hover:text-cyan-400 group-hover:translate-x-16 md:group-hover:translate-x-20'
                             }`}>
-                                About
+                                About Me
                             </span>
                         </div>
                     </a>

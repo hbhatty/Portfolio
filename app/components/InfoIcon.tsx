@@ -4,16 +4,27 @@ import { useState } from 'react';
 
 export default function InfoIcon() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('releases');
 
   const releases = [
+    {
+      version: "v1.1.1-final",
+      date: "Jul 24, 2026",
+      highlights: [
+        "Final v1 update; it's trash and it was AI-slop.",
+        "Updated the browser tab title to Harsh Bhatty",
+        "Replaced the favicon with a simple H icon",
+        "Removed the To-dos tab from the release notes modal",
+        "Renamed the sidebar About link to About Me"
+      ],
+      isCurrent: true
+    },
     {
       version: "v1.1.0",
       date: "Nov 14, 2025",
       highlights: [
         "Added full mobile support across all sections"
       ],
-      isCurrent: true
+      isCurrent: false
     },
     {
       version: "v1.0.3",
@@ -39,12 +50,6 @@ export default function InfoIcon() {
       ],
       isCurrent: false
     }
-  ];
-
-  const upcomingFeatures = [
-    "Update visuals (fonts, colours, etc.)",
-    "Add a dynamic version tracker",
-    "Add newer projects"
   ];
 
   return (
@@ -80,32 +85,8 @@ export default function InfoIcon() {
               </button>
             </div>
 
-            <div className="flex border-b border-gray-600">
-              <button
-                onClick={() => setActiveTab('releases')}
-                className={`flex-1 px-4 md:px-6 py-3 text-xs md:text-sm font-medium transition-colors duration-200 min-h-[44px] ${
-                  activeTab === 'releases'
-                    ? 'text-purple-300 border-b-2 border-purple-500 bg-purple-900/20'
-                    : 'text-gray-400 hover:text-white active:text-white hover:bg-gray-800/20 active:bg-gray-800/20'
-                }`}
-              >
-                📋 Releases
-              </button>
-              <button
-                onClick={() => setActiveTab('todos')}
-                className={`flex-1 px-4 md:px-6 py-3 text-xs md:text-sm font-medium transition-colors duration-200 min-h-[44px] ${
-                  activeTab === 'todos'
-                    ? 'text-purple-300 border-b-2 border-purple-500 bg-purple-900/20'
-                    : 'text-gray-400 hover:text-white active:text-white hover:bg-gray-800/20 active:bg-gray-800/20'
-                }`}
-              >
-                🎯 To-dos
-              </button>
-            </div>
-
             <div className="p-4 md:p-6 overflow-y-auto max-h-[60vh]">
-              {activeTab === 'releases' && (
-                <div>
+              <div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-4 flex items-center">
                     📋 Release History
                   </h3>
@@ -148,25 +129,6 @@ export default function InfoIcon() {
                     ))}
                   </div>
                 </div>
-              )}
-
-              {activeTab === 'todos' && (
-                <div>
-                  <h3 className="text-lg md:text-xl font-semibold text-white mb-4 flex items-center">
-                    🎯 To-dos
-                  </h3>
-                  <div className="bg-gradient-to-r from-gray-800/40 to-gray-900/40 rounded-xl p-4 md:p-5 border border-gray-600/30">
-                    <ul className="space-y-2 md:space-y-3">
-                      {upcomingFeatures.map((feature, index) => (
-                        <li key={index} className="text-gray-200 text-xs md:text-sm flex items-center">
-                          <span className="text-yellow-400 mr-2 md:mr-3 text-base md:text-lg">○</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
