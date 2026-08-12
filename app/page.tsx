@@ -4,30 +4,67 @@ const work = [
     role: "Software Engineer Intern",
     period: "January 2026 - Present",
     href: "https://www.geotab.com/",
+    tools: [
+      "TypeScript",
+      "C#",
+      "React",
+      "ASP.NET",
+      "PostgreSQL",
+      "BigQuery",
+      "Jest",
+      "Sentry",
+    ],
   },
   {
     company: "ATS Corporation",
     role: "Software Engineer Intern",
     period: "May 2025 - August 2025",
     href: "https://www.atslifesciences.com/",
+    tools: [
+      "C#",
+      "TypeScript",
+      "React",
+      "ASP.NET Core MVC",
+      "EF Core",
+      "SQL Server",
+    ],
   },
   {
     company: "Toyota Motor Manufacturing Canada",
     role: "Information Systems Engineering Intern",
     period: "January 2025 - May 2025",
     href: "https://tmmc.ca/en/",
+    tools: [
+      "Python",
+      "TensorFlow",
+      "Pandas",
+      "NumPy",
+      "SQL Server",
+      "Redis",
+      "Docker",
+    ],
   },
   {
     company: "University of Guelph",
     role: "Website Redesign Coordinator Intern",
     period: "June 2024 - August 2024",
     href: "https://www.uoguelph.ca/",
+    tools: ["HTML", "CSS", "JavaScript", "Drupal"],
   },
   {
     company: "Candescent (Formerly NCR Voyix)",
     role: "Software Engineer Intern",
     period: "September 2023 - December 2023",
     href: "https://www.candescent.com/",
+    tools: [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "Docker",
+      "Kubernetes",
+      "Helm",
+      "Google Cloud",
+    ],
   },
 ];
 
@@ -123,6 +160,9 @@ export default function Home() {
                     </span>
                   </div>
                   <p className="mt-1 text-sm text-zinc-400">{item.role}</p>
+                  <p className="mt-2 font-mono text-xs leading-5 text-zinc-400">
+                    {item.tools.join(" · ")}
+                  </p>
                 </li>
               ))}
             </ol>
