@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { getAllBlogPosts } from "./lib/blog";
+
 const work = [
   {
     company: "Geotab",
@@ -99,6 +102,8 @@ const socials = [
 ];
 
 export default function Home() {
+  const posts = getAllBlogPosts();
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto w-full max-w-2xl px-6 py-16 sm:py-24">
@@ -192,6 +197,47 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          <section id="writing" aria-labelledby="writing-heading">
+            <div className="flex items-baseline justify-between gap-6">
+              <h2
+                id="writing-heading"
+                className="text-sm font-medium uppercase tracking-widest text-zinc-500"
+              >
+                Writing
+              </h2>
+              <Link
+                href="/blog"
+                className="font-mono text-xs text-zinc-500 underline-offset-4 hover:text-zinc-100 hover:underline"
+              >
+                All writing →
+              </Link>
+            </div>
+            {posts.length > 0 && (
+              <ol className="mt-5 divide-y divide-white/10 border-y border-white/10">
+                {posts.slice(0, 1).map((post) => (
+                  <li key={post.slug}>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="group block py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                    >
+                      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                        <h3 className="text-sm text-zinc-100 underline-offset-4 group-hover:underline">
+                          {post.title}
+                        </h3>
+                        <time
+                          dateTime={post.publishedAt}
+                          className="shrink-0 font-mono text-xs text-zinc-500"
+                        >
+                          {post.displayDate}
+                        </time>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            )}
           </section>
 
           <section id="education" aria-labelledby="education-heading">
