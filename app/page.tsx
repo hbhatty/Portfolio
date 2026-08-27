@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AiUsageHeatmap from "./components/AiUsageHeatmap";
 import { getAllBlogPosts } from "./lib/blog";
 
 const work = [
@@ -138,6 +139,10 @@ export default function Home() {
             </span>
           </div>
           */}
+
+          <div className="mt-8">
+            <AiUsageHeatmap />
+          </div>
         </header>
 
         <div className="mt-20 space-y-20">
@@ -268,7 +273,6 @@ export default function Home() {
               ))}
             </div>
           </section>
-
         </div>
 
         <footer className="mt-20">
