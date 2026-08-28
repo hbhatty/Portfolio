@@ -177,14 +177,14 @@ function getStateClass(
   }
 
   if (totalTokens === 0 || maximum === 0) {
-    return "border-[#4a413b] bg-[#2c2724]";
+    return "border-zinc-700/80 bg-zinc-800/80";
   }
 
   const ratio = totalTokens / maximum;
-  if (ratio <= 0.05) return "border-transparent bg-[#4b2114]";
-  if (ratio <= 0.25) return "border-transparent bg-[#8f371f]";
-  if (ratio <= 0.55) return "border-transparent bg-[#d95732]";
-  return "border-transparent bg-[#ff7a59]";
+  if (ratio <= 0.05) return "border-transparent bg-white/20";
+  if (ratio <= 0.25) return "border-transparent bg-white/40";
+  if (ratio <= 0.55) return "border-transparent bg-white/65";
+  return "border-transparent bg-zinc-50";
 }
 
 function getWaveStyle(index: number): CSSProperties {
@@ -199,6 +199,7 @@ function getNextMode(mode: UsageMode): UsageMode {
 function getDailyTooltip(
   date: string,
   usage: UsageDay | undefined,
+  today: string,
 ): TooltipContent {
   const label = formatDate(date);
   if (date < TRACKING_STARTED_ON) {
@@ -209,17 +210,24 @@ function getDailyTooltip(
     };
   }
   if (!usage) {
+    if (date === today) {
+      return {
+        label,
+        value: "In progress",
+      };
+    }
+
     return {
       label,
-      value: "Not recorded",
-      detail: "No aggregate was stored",
+      value: "No data",
+      detail: "Usage wasn't recorded",
     };
   }
   if (usage.totalTokens === 0) {
     return {
       label,
       value: "0 tokens",
-      detail: "Recorded zero",
+      detail: "No token activity",
     };
   }
 
@@ -242,15 +250,15 @@ function getWeeklyTooltip(week: UsageWeek): TooltipContent {
   if (week.recordedDays === 0) {
     return {
       label: formatDateRange(week.dates),
-      value: "Not recorded",
-      detail: "No aggregate was stored",
+      value: "No data",
+      detail: "Usage wasn't recorded",
     };
   }
 
   return {
     label: formatDateRange(week.dates),
     value: fullNumberFormatter.format(week.totalTokens) + " tokens",
-    detail: week.totalTokens === 0 ? "Recorded zero" : undefined,
+    detail: week.totalTokens === 0 ? "No token activity" : undefined,
   };
 }
 
@@ -480,7 +488,7 @@ export default function AiUsageHeatmap() {
             value,
             dailyMaximum,
           );
-          const content = getDailyTooltip(date, usage);
+          const content = getDailyTooltip(date, usage, today);
 
           return (
             <span
@@ -572,13 +580,6 @@ export default function AiUsageHeatmap() {
     return view === "weekly" ? renderWeekly() : renderCalendar();
   }
 
-  const statusMessage =
-    loadState === "loading"
-      ? "Loading token activity…"
-      : loadState === "error"
-        ? "Token activity is unavailable."
-        : null;
-
   return (
     <section id="ai-usage" aria-labelledby="ai-usage-heading">
       <div className="flex items-center gap-[0.45rem] text-zinc-300">
@@ -608,7 +609,7 @@ export default function AiUsageHeatmap() {
         </span>
         <button
           type="button"
-          className="inline-grid appearance-none overflow-hidden border-0 bg-transparent p-0 text-sm text-zinc-600 transition-colors duration-[160ms] hover:text-zinc-400 disabled:cursor-default disabled:text-zinc-600 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-zinc-400 motion-reduce:transition-none"
+          className="inline-grid cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0 text-sm text-zinc-600 transition-colors duration-[160ms] hover:text-zinc-400 disabled:cursor-default disabled:text-zinc-600 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-zinc-400 motion-reduce:transition-none"
           aria-controls="token-activity-chart"
           aria-label={
             modeLabels[mode] + " view. Switch to " + modeLabels[nextMode]
@@ -622,12 +623,25 @@ export default function AiUsageHeatmap() {
         </button>
       </div>
 
-      {statusMessage && (
+      {loadState === "loading" && (
+        <div
+          className="mt-4 flex min-h-25 items-center justify-center"
+          role="status"
+        >
+          <span
+            className="size-4 animate-spin rounded-full border border-zinc-700 border-t-zinc-400 motion-reduce:animate-none"
+            aria-hidden="true"
+          />
+          <span className="sr-only">Loading token activity…</span>
+        </div>
+      )}
+
+      {loadState === "error" && (
         <div
           className="mt-4 flex min-h-25 items-center font-mono text-[0.6875rem] text-zinc-600"
           role="status"
         >
-          {statusMessage}
+          Token activity is unavailable.
         </div>
       )}
 
@@ -652,8 +666,7 @@ export default function AiUsageHeatmap() {
               )}
               <div
                 className={
-                  styles.incoming +
-                  " " +
+                  (outgoingMode ? styles.incoming + " " : "") +
                   (mode === "weekly" ? styles.weekly : "") +
                   " w-max"
                 }

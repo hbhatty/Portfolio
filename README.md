@@ -10,6 +10,10 @@ live at [harshbhatty.com](https://harshbhatty.com)
 - **Language:** TypeScript and React
 - **Styling:** Tailwind CSS
 
+## AI usage heatmap
+
+Started officially tracking on August 20, 2026. Combines work done on Codex and OMP.
+
 ## Local development
 
 ```bash
