@@ -369,9 +369,10 @@ export default function AiUsageHeatmap() {
   }
 
   function cycleMode() {
+    const targetMode = getNextMode(mode);
     setTooltip(null);
     setOutgoingMode(mode);
-    setMode(getNextMode(mode));
+    setMode(targetMode);
 
     if (transitionTimer.current !== null) {
       window.clearTimeout(transitionTimer.current);
@@ -379,7 +380,7 @@ export default function AiUsageHeatmap() {
     transitionTimer.current = window.setTimeout(() => {
       setOutgoingMode(null);
       transitionTimer.current = null;
-    }, 350);
+    }, targetMode === "weekly" ? 350 : 180);
   }
 
   useEffect(() => {
@@ -466,11 +467,7 @@ export default function AiUsageHeatmap() {
             return (
               <span
                 key={"leading-" + index}
-                className={
-                  styles.placeholder +
-                  " block size-2 box-border rounded-[1px]"
-                }
-                style={getWaveStyle(Math.floor(index / 7))}
+                className="block size-2 box-border rounded-[1px]"
                 aria-hidden="true"
               />
             );
@@ -494,8 +491,7 @@ export default function AiUsageHeatmap() {
             <span
               key={date}
               className={
-                styles.cell +
-                " block size-2 box-border rounded-[1px] border " +
+                "block size-2 box-border rounded-[1px] border " +
                 "cursor-crosshair transition-[background-color,border-color,transform] " +
                 "duration-[160ms] hover:z-[1] hover:scale-[1.18] hover:outline " +
                 "hover:outline-1 hover:outline-offset-1 hover:outline-zinc-300 " +
@@ -504,7 +500,6 @@ export default function AiUsageHeatmap() {
               }
               role="img"
               aria-label={describeTooltip(content)}
-              style={getWaveStyle(Math.floor(index / 7))}
               onPointerEnter={(event) =>
                 showTooltip(event.currentTarget, content)
               }
