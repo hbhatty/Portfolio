@@ -14,7 +14,7 @@ const USAGE_ENDPOINT =
 const HISTORY_DAYS = 366;
 const TORONTO_TIME_ZONE = "America/Toronto";
 const TRACKING_STARTED_ON = "2026-08-20";
-const MODES = ["daily", "weekly"] as const;
+const MODES = ["daily", "weekly", "cumulative"] as const;
 
 type UsageDay = {
   date: string;
@@ -30,6 +30,10 @@ type UsageWeek = {
   totalTokens: number;
   trackedDays: number;
   recordedDays: number;
+  cumulativeTokens: number;
+  cumulativeTrackedDays: number;
+  cumulativeRecordedDays: number;
+  cumulativeIncomplete: boolean;
 };
 
 type TooltipContent = {
@@ -47,6 +51,7 @@ type TooltipState = TooltipContent & {
 const modeLabels: Record<UsageMode, string> = {
   daily: "Daily",
   weekly: "Weekly",
+  cumulative: "Cumulative",
 };
 
 const fullNumberFormatter = new Intl.NumberFormat("en-CA");
@@ -238,8 +243,22 @@ function getDailyTooltip(
   };
 }
 
-function getWeeklyTooltip(week: UsageWeek): TooltipContent {
-  if (week.trackedDays === 0) {
+function getWeeklyTooltip(
+  week: UsageWeek,
+  mode: "weekly" | "cumulative",
+): TooltipContent {
+  const isCumulative = mode === "cumulative";
+  const trackedDays = isCumulative
+    ? week.cumulativeTrackedDays
+    : week.trackedDays;
+  const recordedDays = isCumulative
+    ? week.cumulativeRecordedDays
+    : week.recordedDays;
+  const totalTokens = isCumulative
+    ? week.cumulativeTokens
+    : week.totalTokens;
+
+  if (trackedDays === 0) {
     return {
       label: formatDateRange(week.dates),
       value: "Not tracked",
@@ -247,7 +266,7 @@ function getWeeklyTooltip(week: UsageWeek): TooltipContent {
     };
   }
 
-  if (week.recordedDays === 0) {
+  if (recordedDays === 0) {
     return {
       label: formatDateRange(week.dates),
       value: "No data",
@@ -256,9 +275,16 @@ function getWeeklyTooltip(week: UsageWeek): TooltipContent {
   }
 
   return {
-    label: formatDateRange(week.dates),
-    value: fullNumberFormatter.format(week.totalTokens) + " tokens",
-    detail: week.totalTokens === 0 ? "No token activity" : undefined,
+    label: isCumulative
+      ? "Through the week of " + formatDate(week.dates[0])
+      : formatDateRange(week.dates),
+    value: fullNumberFormatter.format(totalTokens) + " tokens",
+    detail:
+      isCumulative && week.cumulativeIncomplete
+        ? "Incomplete data"
+        : totalTokens === 0
+          ? "No token activity"
+          : undefined,
   };
 }
 
@@ -310,8 +336,13 @@ export default function AiUsageHeatmap() {
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const transitionTimer = useRef<number | null>(null);
 
-  const { weeks, dailyMaximum, weeklyMaximum } = useMemo(() => {
+  const { weeks, dailyMaximum, weeklyMaximum, cumulativeMaximum } = useMemo(() => {
     const weeks: UsageWeek[] = [];
+    let cumulativeTokens = 0;
+    let cumulativeTrackedDays = 0;
+    let cumulativeRecordedDays = 0;
+    let cumulativeIncomplete = false;
+
     for (let index = 0; index < cells.length; index += 7) {
       const weekDates = cells
         .slice(index, index + 7)
@@ -319,16 +350,32 @@ export default function AiUsageHeatmap() {
       const recordedUsage = weekDates
         .map((date) => usageByDate.get(date))
         .filter((usage): usage is UsageDay => usage !== undefined);
+      const totalTokens = recordedUsage.reduce(
+        (total, usage) => total + usage.totalTokens,
+        0,
+      );
+      const trackedDays = weekDates.filter(
+        (date) => date >= TRACKING_STARTED_ON,
+      ).length;
+      if (
+        !weekDates.includes(today) &&
+        recordedUsage.length < trackedDays
+      ) {
+        cumulativeIncomplete = true;
+      }
 
+      cumulativeTokens += totalTokens;
+      cumulativeTrackedDays += trackedDays;
+      cumulativeRecordedDays += recordedUsage.length;
       weeks.push({
         dates: weekDates,
-        totalTokens: recordedUsage.reduce(
-          (total, usage) => total + usage.totalTokens,
-          0,
-        ),
-        trackedDays: weekDates.filter((date) => date >= TRACKING_STARTED_ON)
-          .length,
+        totalTokens,
+        trackedDays,
         recordedDays: recordedUsage.length,
+        cumulativeTokens,
+        cumulativeTrackedDays,
+        cumulativeRecordedDays,
+        cumulativeIncomplete,
       });
     }
 
@@ -342,8 +389,9 @@ export default function AiUsageHeatmap() {
         0,
         ...weeks.map((week) => week.totalTokens),
       ),
+      cumulativeMaximum: weeks.at(-1)?.cumulativeTokens ?? 0,
     };
-  }, [cells, usageByDate]);
+  }, [cells, today, usageByDate]);
 
   const nextMode = getNextMode(mode);
 
@@ -380,7 +428,7 @@ export default function AiUsageHeatmap() {
     transitionTimer.current = window.setTimeout(() => {
       setOutgoingMode(null);
       transitionTimer.current = null;
-    }, targetMode === "weekly" ? 350 : 180);
+    }, targetMode === "daily" ? 180 : 350);
   }
 
   useEffect(() => {
@@ -512,30 +560,43 @@ export default function AiUsageHeatmap() {
     );
   }
 
-  function renderWeekly() {
+  function renderWeekly(view: "weekly" | "cumulative") {
+    const isCumulative = view === "cumulative";
     return (
       <div
         className="grid h-[74px] w-max gap-x-[3px]"
         style={{
           gridTemplateColumns: "repeat(" + weekCount + ", 8px)",
         }}
-        aria-label="Weekly AI token usage across the last 366 Toronto calendar days"
+        aria-label={
+          modeLabels[view] +
+          " AI token usage across the last 366 Toronto calendar days"
+        }
       >
         {weeks.map((week, index) => {
-          const content = getWeeklyTooltip(week);
+          const content = getWeeklyTooltip(week, view);
+          const trackedDays = isCumulative
+            ? week.cumulativeTrackedDays
+            : week.trackedDays;
+          const recordedDays = isCumulative
+            ? week.cumulativeRecordedDays
+            : week.recordedDays;
+          const totalTokens = isCumulative
+            ? week.cumulativeTokens
+            : week.totalTokens;
+          const maximum = isCumulative
+            ? cumulativeMaximum
+            : weeklyMaximum;
           const state =
-            week.recordedDays > 0
+            recordedDays > 0
               ? "recorded"
-              : week.trackedDays === 0
+              : trackedDays === 0
                 ? "not-tracked"
                 : "not-recorded";
-          const stateClass = getStateClass(
-            state,
-            week.totalTokens,
-            weeklyMaximum,
-          );
-          const isIncomplete =
-            week.recordedDays > 0 && week.recordedDays < week.trackedDays;
+          const stateClass = getStateClass(state, totalTokens, maximum);
+          const isIncomplete = isCumulative
+            ? recordedDays > 0 && week.cumulativeIncomplete
+            : recordedDays > 0 && recordedDays < trackedDays;
 
           return (
             <span
@@ -572,7 +633,7 @@ export default function AiUsageHeatmap() {
   }
 
   function renderMode(view: UsageMode) {
-    return view === "weekly" ? renderWeekly() : renderCalendar();
+    return view === "daily" ? renderCalendar() : renderWeekly(view);
   }
 
   return (
@@ -649,7 +710,7 @@ export default function AiUsageHeatmap() {
                   className={
                     styles.outgoing +
                     " " +
-                    (outgoingMode === "weekly" ? styles.weekly : "") +
+                    (outgoingMode === "daily" ? "" : styles.weekly) +
                     " w-max"
                   }
                   key={"outgoing-" + outgoingMode + "-" + mode}
@@ -662,7 +723,7 @@ export default function AiUsageHeatmap() {
               <div
                 className={
                   (outgoingMode ? styles.incoming + " " : "") +
-                  (mode === "weekly" ? styles.weekly : "") +
+                  (mode === "daily" ? "" : styles.weekly) +
                   " w-max"
                 }
                 key={mode}
