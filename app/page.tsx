@@ -83,6 +83,10 @@ const education = [
 
 const projects = [
   {
+    name: "Grindfolio",
+    href: "https://github.com/hbhatty/Grindfolio",
+  },
+  {
     name: "Pokemon TCG Searcher",
     href: "https://github.com/hbhatty/pokemon-tcg",
   },
@@ -196,9 +200,6 @@ export default function Home() {
                   >
                     {project.name}
                   </a>
-                  <p className="mt-1 font-mono text-xs text-zinc-500">
-                    GitHub repository
-                  </p>
                 </li>
               ))}
             </ul>
