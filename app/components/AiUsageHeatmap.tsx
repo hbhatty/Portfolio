@@ -678,6 +678,9 @@ export default function AiUsageHeatmap() {
           </span>
         </button>
       </div>
+      <p className="ml-6 mt-1 text-[0.6875rem] italic leading-relaxed text-zinc-500">
+        you can tell when the 5-hour limit came back
+      </p>
 
       {loadState === "loading" && (
         <div
