@@ -178,18 +178,18 @@ function getStateClass(
   }
 
   if (state === "not-recorded") {
-    return "border-zinc-700/70 bg-zinc-900/70";
+    return "border-neutral-700/70 bg-neutral-900/70";
   }
 
   if (totalTokens === 0 || maximum === 0) {
-    return "border-zinc-700/80 bg-zinc-800/80";
+    return "border-neutral-700/80 bg-neutral-800/80";
   }
 
   const ratio = totalTokens / maximum;
-  if (ratio <= 0.05) return "border-transparent bg-white/20";
-  if (ratio <= 0.25) return "border-transparent bg-white/40";
-  if (ratio <= 0.55) return "border-transparent bg-white/65";
-  return "border-transparent bg-zinc-50";
+  if (ratio <= 0.05) return "border-transparent bg-neutral-500";
+  if (ratio <= 0.25) return "border-transparent bg-neutral-400";
+  if (ratio <= 0.55) return "border-transparent bg-neutral-300";
+  return "border-transparent bg-neutral-100";
 }
 
 function getWaveStyle(index: number): CSSProperties {
