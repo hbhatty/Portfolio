@@ -493,7 +493,7 @@ export default function AiUsageHeatmap() {
   function renderMonthLabels() {
     return (
       <div
-        className="mt-[0.65rem] grid w-max gap-x-[3px] overflow-visible text-[0.625rem] leading-none text-zinc-600"
+        className="mt-[0.65rem] grid w-max gap-x-[3px] overflow-visible text-[0.625rem] leading-none text-zinc-400"
         style={{
           gridTemplateColumns: "repeat(" + weekCount + ", 8px)",
         }}
@@ -673,7 +673,7 @@ export default function AiUsageHeatmap() {
         </span>
         <button
           type="button"
-          className="inline-grid cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0 text-sm text-zinc-600 transition-colors duration-[160ms] hover:text-zinc-400 disabled:cursor-default disabled:text-zinc-600 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-zinc-400 motion-reduce:transition-none"
+          className="inline-grid cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0 text-sm text-zinc-400 transition-colors duration-[160ms] hover:text-zinc-300 disabled:cursor-default disabled:text-zinc-400 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-zinc-400 motion-reduce:transition-none"
           aria-controls="token-activity-chart"
           aria-label={
             modeLabels[mode] + " view. Switch to " + modeLabels[nextMode]
@@ -686,7 +686,7 @@ export default function AiUsageHeatmap() {
           </span>
         </button>
       </div>
-      <p className="ml-6 mt-1 text-[0.6875rem] italic leading-relaxed text-zinc-500">
+      <p className="ml-6 mt-1 text-[0.6875rem] italic leading-relaxed text-zinc-400">
         you can tell when the 5-hour limit came back
       </p>
 
@@ -705,7 +705,7 @@ export default function AiUsageHeatmap() {
 
       {loadState === "error" && (
         <div
-          className="mt-4 flex min-h-25 items-center font-mono text-[0.6875rem] text-zinc-600"
+          className="mt-4 flex min-h-25 items-center font-mono text-[0.6875rem] text-zinc-400"
           role="status"
         >
           Token activity is unavailable.
@@ -778,7 +778,7 @@ export default function AiUsageHeatmap() {
                 >
                   ·
                 </span>
-                <span className="font-mono text-[0.5625rem] leading-[1.35] text-zinc-500">
+                <span className="font-mono text-[0.5625rem] leading-[1.35] text-zinc-400">
                   {tooltip.detail}
                 </span>
               </>

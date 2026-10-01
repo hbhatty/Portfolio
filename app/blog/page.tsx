@@ -16,14 +16,14 @@ export default function BlogPage() {
         <header>
           <Link
             href="/"
-            className="font-mono text-xs text-zinc-500 underline-offset-4 hover:text-zinc-100 hover:underline"
+            className="font-mono text-xs text-zinc-400 underline-offset-4 hover:text-zinc-100 hover:underline"
           >
             ← Harshdeep Bhatty
           </Link>
           <h1 className="mt-12 text-2xl font-medium tracking-tight text-white">
             Writing
           </h1>
-          <p className="mt-3 max-w-xl text-xs leading-5 text-zinc-500">
+          <p className="mt-3 max-w-xl text-xs leading-5 text-zinc-400">
             no ai, not proofread, and not edited. purely my thoughts and how i think.
           </p>
         </header>
@@ -43,7 +43,7 @@ export default function BlogPage() {
                       </h3>
                       <time
                         dateTime={post.publishedAt}
-                        className="shrink-0 font-mono text-xs text-zinc-500"
+                        className="shrink-0 font-mono text-xs text-zinc-400"
                       >
                         {post.displayDate}
                       </time>

@@ -153,7 +153,7 @@ export default function Home() {
           <section id="work" aria-labelledby="work-heading">
             <h2
               id="work-heading"
-              className="text-sm font-medium uppercase tracking-widest text-zinc-500"
+              className="text-sm font-medium uppercase tracking-widest text-zinc-400"
             >
               Work
             </h2>
@@ -169,7 +169,7 @@ export default function Home() {
                     >
                       {item.company}
                     </a>
-                    <span className="shrink-0 font-mono text-xs text-zinc-500">
+                    <span className="shrink-0 font-mono text-xs text-zinc-400">
                       {item.period}
                     </span>
                   </div>
@@ -185,7 +185,7 @@ export default function Home() {
           <section id="projects" aria-labelledby="projects-heading">
             <h2
               id="projects-heading"
-              className="text-sm font-medium uppercase tracking-widest text-zinc-500"
+              className="text-sm font-medium uppercase tracking-widest text-zinc-400"
             >
               Projects
             </h2>
@@ -209,13 +209,13 @@ export default function Home() {
             <div className="flex items-baseline justify-between gap-6">
               <h2
                 id="writing-heading"
-                className="text-sm font-medium uppercase tracking-widest text-zinc-500"
+                className="text-sm font-medium uppercase tracking-widest text-zinc-400"
               >
                 Writing
               </h2>
               <Link
                 href="/blog"
-                className="font-mono text-xs text-zinc-500 underline-offset-4 hover:text-zinc-100 hover:underline"
+                className="font-mono text-xs text-zinc-400 underline-offset-4 hover:text-zinc-100 hover:underline"
               >
                 All writing →
               </Link>
@@ -234,7 +234,7 @@ export default function Home() {
                         </h3>
                         <time
                           dateTime={post.publishedAt}
-                          className="shrink-0 font-mono text-xs text-zinc-500"
+                          className="shrink-0 font-mono text-xs text-zinc-400"
                         >
                           {post.displayDate}
                         </time>
@@ -249,7 +249,7 @@ export default function Home() {
           <section id="education" aria-labelledby="education-heading">
             <h2
               id="education-heading"
-              className="text-sm font-medium uppercase tracking-widest text-zinc-500"
+              className="text-sm font-medium uppercase tracking-widest text-zinc-400"
             >
               Education
             </h2>
@@ -265,7 +265,7 @@ export default function Home() {
                     >
                       {item.school}
                     </a>
-                    <span className="shrink-0 font-mono text-xs text-zinc-500">
+                    <span className="shrink-0 font-mono text-xs text-zinc-400">
                       {item.period}
                     </span>
                   </div>
@@ -277,7 +277,7 @@ export default function Home() {
         </div>
 
         <footer className="mt-20">
-          <h2 className="text-sm font-medium uppercase tracking-widest text-zinc-500">
+          <h2 className="text-sm font-medium uppercase tracking-widest text-zinc-400">
             Contact
           </h2>
           <nav

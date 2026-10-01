@@ -14,9 +14,6 @@ live at [harshbhatty.com](https://harshbhatty.com)
 
 Started officially tracking on August 20, 2026. Combines work done on Codex and OMP.
 
-On narrow screens, the heatmap opens at the newest dates. Scroll horizontally to
-view earlier activity; switching views preserves your scroll position.
-
 ## Local development
 
 ```bash

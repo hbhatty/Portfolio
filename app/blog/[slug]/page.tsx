@@ -43,7 +43,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <header className="border-b border-white/10 pb-10">
           <Link
             href="/blog"
-            className="font-mono text-xs text-zinc-500 underline-offset-4 hover:text-zinc-100 hover:underline"
+            className="font-mono text-xs text-zinc-400 underline-offset-4 hover:text-zinc-100 hover:underline"
           >
             ← All writing
           </Link>
@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </p>
           <time
             dateTime={post.publishedAt}
-            className="mt-6 block font-mono text-xs text-zinc-500"
+            className="mt-6 block font-mono text-xs text-zinc-400"
           >
             {post.displayDate}
           </time>
