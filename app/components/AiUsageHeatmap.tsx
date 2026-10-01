@@ -335,6 +335,7 @@ export default function AiUsageHeatmap() {
   );
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const transitionTimer = useRef<number | null>(null);
+  const chartScroller = useRef<HTMLDivElement | null>(null);
 
   const { weeks, dailyMaximum, weeklyMaximum, cumulativeMaximum } = useMemo(() => {
     const weeks: UsageWeek[] = [];
@@ -467,6 +468,13 @@ export default function AiUsageHeatmap() {
       controller.abort();
     };
   }, [dates, today]);
+
+  useEffect(() => {
+    const scroller = chartScroller.current;
+    if (loadState === "ready" && scroller) {
+      scroller.scrollLeft = scroller.scrollWidth;
+    }
+  }, [loadState]);
 
   useEffect(() => {
     const hideTooltip = () => setTooltip(null);
@@ -705,7 +713,10 @@ export default function AiUsageHeatmap() {
       )}
 
       {loadState === "ready" && (
-        <div className="mt-4 overflow-x-auto py-0.5 pb-2 [scrollbar-color:#3f3f46_transparent] [scrollbar-width:thin]">
+        <div
+          ref={chartScroller}
+          className="mt-4 overflow-x-auto py-0.5 pb-2 [scrollbar-color:#3f3f46_transparent] [scrollbar-width:thin]"
+        >
           <div id="token-activity-chart" className="w-max min-w-full">
             <div className="relative isolate h-[74px] w-max">
               {outgoingMode && (
