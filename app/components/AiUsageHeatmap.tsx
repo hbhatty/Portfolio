@@ -401,20 +401,30 @@ export default function AiUsageHeatmap() {
     content: TooltipContent,
   ) {
     const bounds = target.getBoundingClientRect();
-    const halfWidth = Math.min(125, (window.innerWidth - 24) / 2);
     const center = bounds.left + bounds.width / 2;
-    const left = Math.max(
-      12 + halfWidth,
-      Math.min(window.innerWidth - 12 - halfWidth, center),
-    );
     const placement = bounds.top < 96 ? "below" : "above";
 
     setTooltip({
       ...content,
-      left,
+      left: center,
       top: placement === "below" ? bounds.bottom + 6 : bounds.top - 6,
       placement,
     });
+  }
+
+  function positionTooltip(element: HTMLDivElement | null) {
+    if (!element || !tooltip) return;
+
+    const halfWidth = element.getBoundingClientRect().width / 2;
+    const left = Math.max(
+      12 + halfWidth,
+      Math.min(window.innerWidth - 12 - halfWidth, tooltip.left),
+    );
+    element.style.left = `${left}px`;
+    element.style.setProperty(
+      "--tooltip-anchor-offset",
+      `${tooltip.left - left}px`,
+    );
   }
 
   function cycleMode() {
@@ -752,7 +762,8 @@ export default function AiUsageHeatmap() {
 
       {tooltip && (
         <div
-          className="pointer-events-none fixed z-50 block w-max max-w-[calc(100vw-24px)] rounded-[0.3rem] border border-white/[0.08] bg-[rgba(24,21,19,0.98)] px-[0.55rem] py-[0.45rem] shadow-[0_4px_14px_rgba(0,0,0,0.3)]"
+          ref={positionTooltip}
+          className="pointer-events-none fixed z-50 w-max max-w-[min(240px,calc(100vw-24px))] rounded-md border border-white/10 bg-zinc-900 px-2 py-1.5 shadow-sm shadow-black/20"
           role="tooltip"
           style={{
             left: tooltip.left,
@@ -763,27 +774,32 @@ export default function AiUsageHeatmap() {
                 : "translate(-50%, -100%)",
           }}
         >
-          <strong className="block font-mono text-[0.6875rem] font-medium leading-[1.25] text-zinc-100">
-            {tooltip.value}
-          </strong>
-          <div className="mt-[0.18rem] flex flex-wrap items-baseline gap-1">
-            <span className="font-mono text-[0.5625rem] leading-[1.35] text-zinc-400">
+          <span
+            aria-hidden="true"
+            className={
+              "absolute size-1.5 border-white/10 bg-zinc-900 " +
+              (tooltip.placement === "above"
+                ? "-bottom-[4px] border-b border-r"
+                : "-top-[4px] border-l border-t")
+            }
+            style={{
+              left: "clamp(5px, calc(50% + var(--tooltip-anchor-offset, 0px)), calc(100% - 5px))",
+              transform: "translateX(-50%) rotate(45deg)",
+            }}
+          />
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+            <strong className="font-mono text-[0.6875rem] font-medium leading-4 tabular-nums text-zinc-100">
+              {tooltip.value}
+            </strong>
+            <span className="rounded-sm bg-white/5 px-1 py-px text-[0.625rem] leading-3 text-zinc-400">
               {tooltip.label}
             </span>
-            {tooltip.detail && (
-              <>
-                <span
-                  className="font-mono text-[0.5625rem] leading-[1.35] text-zinc-600"
-                  aria-hidden="true"
-                >
-                  ·
-                </span>
-                <span className="font-mono text-[0.5625rem] leading-[1.35] text-zinc-400">
-                  {tooltip.detail}
-                </span>
-              </>
-            )}
           </div>
+          {tooltip.detail && (
+            <p className="mt-0.5 text-[0.625rem] leading-[14px] text-zinc-400">
+              {tooltip.detail}
+            </p>
+          )}
         </div>
       )}
     </section>
