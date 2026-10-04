@@ -23,7 +23,7 @@ export default function BlogPage() {
           <h1 className="mt-12 text-2xl font-medium tracking-tight text-white">
             Writing
           </h1>
-          <p className="mt-3 max-w-xl text-xs leading-5 text-zinc-400">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-400">
             no ai, not proofread, and not edited. purely my thoughts and how i think.
           </p>
         </header>
