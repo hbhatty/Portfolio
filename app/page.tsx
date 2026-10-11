@@ -117,7 +117,7 @@ export default function Home() {
             Harshdeep Bhatty
           </h1>
           <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-400">
-            i like learning and exploring.
+            just a curious person who likes learning new things.
           </p>
 
           {/* Re-enable once these values come from real activity data.
