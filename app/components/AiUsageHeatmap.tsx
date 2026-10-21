@@ -168,10 +168,32 @@ function formatPeakHour(hour: number): string {
   return normalized - 12 + ":00 PM";
 }
 
+type Quartiles = readonly [number, number, number];
+
+// Quartile cut-offs over non-zero values, so one outlier cannot flatten the
+// shading the way a ratio to the maximum does.
+function getQuartiles(values: number[]): Quartiles | null {
+  const sorted = values.filter((value) => value > 0).sort((a, b) => a - b);
+  if (sorted.length === 0) return null;
+
+  const at = (fraction: number) =>
+    sorted[Math.floor((sorted.length - 1) * fraction)];
+  return [at(0.25), at(0.5), at(0.75)];
+}
+
+const zeroUsageClass = "border-neutral-700/80 bg-neutral-800/80";
+
+const activityLevelClasses = [
+  "border-transparent bg-white/20",
+  "border-transparent bg-white/40",
+  "border-transparent bg-white/65",
+  "border-transparent bg-white/95",
+] as const;
+
 function getStateClass(
   state: "not-tracked" | "not-recorded" | "recorded",
   totalTokens: number,
-  maximum: number,
+  quartiles: Quartiles | null,
 ): string {
   if (state === "not-tracked") {
     return "[border-color:rgba(255,255,255,0.015)] bg-white/[0.045]";
@@ -181,15 +203,12 @@ function getStateClass(
     return "border-neutral-700/70 bg-neutral-900/70";
   }
 
-  if (totalTokens === 0 || maximum === 0) {
-    return "border-neutral-700/80 bg-neutral-800/80";
+  if (totalTokens === 0 || quartiles === null) {
+    return zeroUsageClass;
   }
 
-  const ratio = totalTokens / maximum;
-  if (ratio <= 0.05) return "border-transparent bg-neutral-500";
-  if (ratio <= 0.25) return "border-transparent bg-neutral-400";
-  if (ratio <= 0.55) return "border-transparent bg-neutral-300";
-  return "border-transparent bg-neutral-100";
+  const level = quartiles.filter((cutoff) => totalTokens >= cutoff).length;
+  return activityLevelClasses[level];
 }
 
 function getWaveStyle(index: number): CSSProperties {
@@ -337,7 +356,7 @@ export default function AiUsageHeatmap() {
   const transitionTimer = useRef<number | null>(null);
   const chartScroller = useRef<HTMLDivElement | null>(null);
 
-  const { weeks, dailyMaximum, weeklyMaximum, cumulativeMaximum } = useMemo(() => {
+  const { weeks, dailyQuartiles, weeklyQuartiles, cumulativeQuartiles } = useMemo(() => {
     const weeks: UsageWeek[] = [];
     let cumulativeTokens = 0;
     let cumulativeTrackedDays = 0;
@@ -382,15 +401,13 @@ export default function AiUsageHeatmap() {
 
     return {
       weeks,
-      dailyMaximum: Math.max(
-        0,
-        ...Array.from(usageByDate.values(), (day) => day.totalTokens),
+      dailyQuartiles: getQuartiles(
+        Array.from(usageByDate.values(), (day) => day.totalTokens),
       ),
-      weeklyMaximum: Math.max(
-        0,
-        ...weeks.map((week) => week.totalTokens),
+      weeklyQuartiles: getQuartiles(weeks.map((week) => week.totalTokens)),
+      cumulativeQuartiles: getQuartiles(
+        weeks.map((week) => week.cumulativeTokens),
       ),
-      cumulativeMaximum: weeks.at(-1)?.cumulativeTokens ?? 0,
     };
   }, [cells, today, usageByDate]);
 
@@ -549,7 +566,7 @@ export default function AiUsageHeatmap() {
           const stateClass = getStateClass(
             state,
             value,
-            dailyMaximum,
+            dailyQuartiles,
           );
           const content = getDailyTooltip(date, usage, today);
 
@@ -602,16 +619,16 @@ export default function AiUsageHeatmap() {
           const totalTokens = isCumulative
             ? week.cumulativeTokens
             : week.totalTokens;
-          const maximum = isCumulative
-            ? cumulativeMaximum
-            : weeklyMaximum;
+          const quartiles = isCumulative
+            ? cumulativeQuartiles
+            : weeklyQuartiles;
           const state =
             recordedDays > 0
               ? "recorded"
               : trackedDays === 0
                 ? "not-tracked"
                 : "not-recorded";
-          const stateClass = getStateClass(state, totalTokens, maximum);
+          const stateClass = getStateClass(state, totalTokens, quartiles);
           const isIncomplete = isCumulative
             ? recordedDays > 0 && week.cumulativeIncomplete
             : recordedDays > 0 && recordedDays < trackedDays;
@@ -723,9 +740,10 @@ export default function AiUsageHeatmap() {
       )}
 
       {loadState === "ready" && (
+        <div className="w-max max-w-full">
         <div
           ref={chartScroller}
-          className="mt-4 overflow-x-auto py-0.5 pb-2 [scrollbar-color:#3f3f46_transparent] [scrollbar-width:thin]"
+          className="mt-4 -mx-1 overflow-x-auto px-1 py-0.5 pb-2 [scrollbar-color:#3f3f46_transparent] [scrollbar-width:thin]"
         >
           <div id="token-activity-chart" className="w-max min-w-full">
             <div className="relative isolate h-[74px] w-max">
@@ -757,6 +775,20 @@ export default function AiUsageHeatmap() {
             </div>
             {renderMonthLabels()}
           </div>
+        </div>
+        <div
+          className="mt-1 flex items-center justify-end gap-[3px] text-[0.625rem] leading-none text-zinc-400"
+          aria-hidden="true"
+        >
+          <span className="mr-1">Less</span>
+          {[zeroUsageClass, ...activityLevelClasses].map((levelClass) => (
+            <span
+              key={levelClass}
+              className={"block size-2 box-border rounded-[1px] border " + levelClass}
+            />
+          ))}
+          <span className="ml-1">More</span>
+        </div>
         </div>
       )}
 
