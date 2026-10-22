@@ -181,13 +181,14 @@ function getQuartiles(values: number[]): Quartiles | null {
   return [at(0.25), at(0.5), at(0.75)];
 }
 
-const zeroUsageClass = "border-neutral-700/80 bg-neutral-800/80";
+const zeroUsageClass =
+  "border-[var(--heatmap-zero-border)] bg-[var(--heatmap-zero-bg)]";
 
 const activityLevelClasses = [
-  "border-transparent bg-white/20",
-  "border-transparent bg-white/40",
-  "border-transparent bg-white/65",
-  "border-transparent bg-white/95",
+  "border-transparent bg-[var(--heatmap-level-1)]",
+  "border-transparent bg-[var(--heatmap-level-2)]",
+  "border-transparent bg-[var(--heatmap-level-3)]",
+  "border-transparent bg-[var(--heatmap-level-4)]",
 ] as const;
 
 function getStateClass(
@@ -196,11 +197,11 @@ function getStateClass(
   quartiles: Quartiles | null,
 ): string {
   if (state === "not-tracked") {
-    return "[border-color:rgba(255,255,255,0.015)] bg-white/[0.045]";
+    return "border-[var(--heatmap-untracked-border)] bg-[var(--heatmap-untracked-bg)]";
   }
 
   if (state === "not-recorded") {
-    return "border-neutral-700/70 bg-neutral-900/70";
+    return "border-[var(--heatmap-missing-border)] bg-[var(--heatmap-missing-bg)]";
   }
 
   if (totalTokens === 0 || quartiles === null) {
@@ -520,7 +521,7 @@ export default function AiUsageHeatmap() {
   function renderMonthLabels() {
     return (
       <div
-        className="mt-[0.65rem] grid w-max gap-x-[3px] overflow-visible text-[0.625rem] leading-none text-zinc-400"
+        className="mt-[0.65rem] grid w-max gap-x-[3px] overflow-visible text-[0.625rem] leading-none text-muted"
         style={{
           gridTemplateColumns: "repeat(" + weekCount + ", 8px)",
         }}
@@ -577,7 +578,7 @@ export default function AiUsageHeatmap() {
                 "block size-2 box-border rounded-[1px] border " +
                 "cursor-crosshair transition-[background-color,border-color,transform] " +
                 "duration-[160ms] hover:z-[1] hover:scale-[1.18] hover:outline " +
-                "hover:outline-1 hover:outline-offset-1 hover:outline-zinc-300 " +
+                "hover:outline-1 hover:outline-offset-1 hover:outline-foreground " +
                 "motion-reduce:transition-none " +
                 stateClass
               }
@@ -641,7 +642,7 @@ export default function AiUsageHeatmap() {
                 " relative block h-[74px] w-2 box-border rounded-[1px] border " +
                 "cursor-crosshair transition-[background-color,border-color,transform] " +
                 "duration-[160ms] hover:z-[1] hover:scale-y-[1.04] hover:outline " +
-                "hover:outline-1 hover:outline-offset-1 hover:outline-zinc-300 " +
+                "hover:outline-1 hover:outline-offset-1 hover:outline-foreground " +
                 "motion-reduce:transition-none " +
                 stateClass
               }
@@ -656,7 +657,7 @@ export default function AiUsageHeatmap() {
             >
               {isIncomplete && (
                 <span
-                  className="pointer-events-none absolute inset-x-px bottom-px h-0.5 rounded-[1px] bg-zinc-100/60"
+                  className="pointer-events-none absolute inset-x-px bottom-px h-0.5 rounded-[1px] bg-heading/60"
                   aria-hidden="true"
                 />
               )}
@@ -673,9 +674,9 @@ export default function AiUsageHeatmap() {
 
   return (
     <section id="ai-usage" aria-labelledby="ai-usage-heading">
-      <div className="flex items-center gap-[0.45rem] text-zinc-300">
+      <div className="flex items-center gap-[0.45rem] text-foreground">
         <svg
-          className="mr-px size-4 shrink-0 text-zinc-400"
+          className="mr-px size-4 shrink-0 text-muted"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -695,12 +696,12 @@ export default function AiUsageHeatmap() {
         >
           Token activity
         </h2>
-        <span className="text-sm text-zinc-600" aria-hidden="true">
+        <span className="text-sm text-subtle" aria-hidden="true">
           /
         </span>
         <button
           type="button"
-          className="inline-grid cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0 text-sm text-zinc-400 transition-colors duration-[160ms] hover:text-zinc-300 disabled:cursor-default disabled:text-zinc-400 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-zinc-400 motion-reduce:transition-none"
+          className="inline-grid cursor-pointer appearance-none overflow-hidden border-0 bg-transparent p-0 text-sm text-muted transition-colors duration-[160ms] hover:text-foreground disabled:cursor-default disabled:text-muted focus-visible:rounded-sm focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[3px] focus-visible:outline-muted motion-reduce:transition-none"
           aria-controls="token-activity-chart"
           aria-label={
             modeLabels[mode] + " view. Switch to " + modeLabels[nextMode]
@@ -713,7 +714,7 @@ export default function AiUsageHeatmap() {
           </span>
         </button>
       </div>
-      <p className="ml-6 mt-1 text-[0.6875rem] italic leading-relaxed text-zinc-400">
+      <p className="ml-6 mt-1 text-[0.6875rem] italic leading-relaxed text-muted">
         you can tell when the 5-hour limit came back
       </p>
 
@@ -723,7 +724,7 @@ export default function AiUsageHeatmap() {
           role="status"
         >
           <span
-            className="size-4 animate-spin rounded-full border border-zinc-700 border-t-zinc-400 motion-reduce:animate-none"
+            className="size-4 animate-spin rounded-full border border-border border-t-muted motion-reduce:animate-none"
             aria-hidden="true"
           />
           <span className="sr-only">Loading token activity…</span>
@@ -732,7 +733,7 @@ export default function AiUsageHeatmap() {
 
       {loadState === "error" && (
         <div
-          className="mt-4 flex min-h-25 items-center font-mono text-[0.6875rem] text-zinc-400"
+          className="mt-4 flex min-h-25 items-center font-mono text-[0.6875rem] text-muted"
           role="status"
         >
           Token activity is unavailable.
@@ -743,7 +744,7 @@ export default function AiUsageHeatmap() {
         <div className="w-max max-w-full">
         <div
           ref={chartScroller}
-          className="mt-4 -mx-1 overflow-x-auto px-1 py-0.5 pb-2 [scrollbar-color:#3f3f46_transparent] [scrollbar-width:thin]"
+          className="mt-4 -mx-1 overflow-x-auto px-1 py-0.5 pb-2 [scrollbar-color:var(--color-border)_transparent] [scrollbar-width:thin]"
         >
           <div id="token-activity-chart" className="w-max min-w-full">
             <div className="relative isolate h-[74px] w-max">
@@ -777,7 +778,7 @@ export default function AiUsageHeatmap() {
           </div>
         </div>
         <div
-          className="mt-1 flex items-center justify-end gap-[3px] text-[0.625rem] leading-none text-zinc-400"
+          className="mt-1 flex items-center justify-end gap-[3px] text-[0.625rem] leading-none text-muted"
           aria-hidden="true"
         >
           <span className="mr-1">Less</span>
@@ -795,7 +796,7 @@ export default function AiUsageHeatmap() {
       {tooltip && (
         <div
           ref={positionTooltip}
-          className="pointer-events-none fixed z-50 w-max max-w-[min(240px,calc(100vw-24px))] rounded-md border border-white/10 bg-zinc-900 px-2 py-1.5 shadow-sm shadow-black/20"
+          className="pointer-events-none fixed z-50 w-max max-w-[min(240px,calc(100vw-24px))] rounded-md border border-border bg-surface px-2 py-1.5 shadow-sm shadow-foreground/10"
           role="tooltip"
           style={{
             left: tooltip.left,
@@ -809,7 +810,7 @@ export default function AiUsageHeatmap() {
           <span
             aria-hidden="true"
             className={
-              "absolute size-1.5 border-white/10 bg-zinc-900 " +
+              "absolute size-1.5 border-border bg-surface " +
               (tooltip.placement === "above"
                 ? "-bottom-[4px] border-b border-r"
                 : "-top-[4px] border-l border-t")
@@ -820,15 +821,15 @@ export default function AiUsageHeatmap() {
             }}
           />
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-            <strong className="font-mono text-[0.6875rem] font-medium leading-4 tabular-nums text-zinc-100">
+            <strong className="font-mono text-[0.6875rem] font-medium leading-4 tabular-nums text-heading">
               {tooltip.value}
             </strong>
-            <span className="rounded-sm bg-white/5 px-1 py-px text-[0.625rem] leading-3 text-zinc-400">
+            <span className="rounded-sm bg-surface-raised px-1 py-px text-[0.625rem] leading-3 text-muted">
               {tooltip.label}
             </span>
           </div>
           {tooltip.detail && (
-            <p className="mt-0.5 text-[0.625rem] leading-[14px] text-zinc-400">
+            <p className="mt-0.5 text-[0.625rem] leading-[14px] text-muted">
               {tooltip.detail}
             </p>
           )}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AiUsageHeatmap from "./components/AiUsageHeatmap";
 import { getAllBlogPosts } from "./lib/blog";
+import ThemeToggle from "./components/ThemeToggle";
 
 const work = [
   {
@@ -113,10 +114,13 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto w-full max-w-2xl px-6 py-16 sm:py-24">
         <header>
-          <h1 className="text-2xl font-medium tracking-tight text-white">
-            Harshdeep Bhatty
-          </h1>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-400">
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="text-2xl font-medium tracking-tight text-heading">
+              Harshdeep Bhatty
+            </h1>
+            <ThemeToggle />
+          </div>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
             just a curious person who likes learning new things.
           </p>
 
@@ -153,11 +157,11 @@ export default function Home() {
           <section id="work" aria-labelledby="work-heading">
             <h2
               id="work-heading"
-              className="text-sm font-medium uppercase tracking-widest text-zinc-400"
+              className="text-sm font-medium uppercase tracking-widest text-muted"
             >
               Work
             </h2>
-            <ol className="mt-5 divide-y divide-white/10 border-y border-white/10">
+            <ol className="mt-5 divide-y divide-border border-y border-border">
               {work.map((item) => (
                 <li key={`${item.company}-${item.period}`} className="py-5">
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
@@ -165,16 +169,16 @@ export default function Home() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-sm text-zinc-100 underline-offset-4 hover:underline"
+                      className="text-sm text-heading underline-offset-4 hover:underline"
                     >
                       {item.company}
                     </a>
-                    <span className="shrink-0 font-mono text-xs text-zinc-400">
+                    <span className="shrink-0 font-mono text-xs text-muted">
                       {item.period}
                     </span>
                   </div>
-                  <p className="mt-1 text-sm text-zinc-400">{item.role}</p>
-                  <p className="mt-2 font-mono text-xs leading-5 text-zinc-400">
+                  <p className="mt-1 text-sm text-muted">{item.role}</p>
+                  <p className="mt-2 font-mono text-xs leading-5 text-muted">
                     {item.tools.join(" · ")}
                   </p>
                 </li>
@@ -185,18 +189,18 @@ export default function Home() {
           <section id="projects" aria-labelledby="projects-heading">
             <h2
               id="projects-heading"
-              className="text-sm font-medium uppercase tracking-widest text-zinc-400"
+              className="text-sm font-medium uppercase tracking-widest text-muted"
             >
               Projects
             </h2>
-            <ul className="mt-5 divide-y divide-white/10 border-y border-white/10">
+            <ul className="mt-5 divide-y divide-border border-y border-border">
               {projects.map((project) => (
                 <li key={project.name} className="py-5">
                   <a
                     href={project.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-sm text-zinc-100 underline-offset-4 hover:underline"
+                    className="text-sm text-heading underline-offset-4 hover:underline"
                   >
                     {project.name}
                   </a>
@@ -209,32 +213,32 @@ export default function Home() {
             <div className="flex items-baseline justify-between gap-6">
               <h2
                 id="writing-heading"
-                className="text-sm font-medium uppercase tracking-widest text-zinc-400"
+                className="text-sm font-medium uppercase tracking-widest text-muted"
               >
                 Writing
               </h2>
               <Link
                 href="/blog"
-                className="font-mono text-xs text-zinc-400 underline-offset-4 hover:text-zinc-100 hover:underline"
+                className="font-mono text-xs text-muted underline-offset-4 hover:text-heading hover:underline"
               >
                 All writing →
               </Link>
             </div>
             {posts.length > 0 && (
-              <ol className="mt-5 divide-y divide-white/10 border-y border-white/10">
+              <ol className="mt-5 divide-y divide-border border-y border-border">
                 {posts.slice(0, 1).map((post) => (
                   <li key={post.slug}>
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="group block py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                      className="group block py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted focus-visible:ring-offset-4 focus-visible:ring-offset-background"
                     >
                       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                        <h3 className="text-sm text-zinc-100 underline-offset-4 group-hover:underline">
+                        <h3 className="text-sm text-heading underline-offset-4 group-hover:underline">
                           {post.title}
                         </h3>
                         <time
                           dateTime={post.publishedAt}
-                          className="shrink-0 font-mono text-xs text-zinc-400"
+                          className="shrink-0 font-mono text-xs text-muted"
                         >
                           {post.displayDate}
                         </time>
@@ -249,11 +253,11 @@ export default function Home() {
           <section id="education" aria-labelledby="education-heading">
             <h2
               id="education-heading"
-              className="text-sm font-medium uppercase tracking-widest text-zinc-400"
+              className="text-sm font-medium uppercase tracking-widest text-muted"
             >
               Education
             </h2>
-            <div className="mt-5 border-y border-white/10 py-5">
+            <div className="mt-5 border-y border-border py-5">
               {education.map((item) => (
                 <div key={item.school}>
                   <div className="flex items-baseline justify-between gap-6">
@@ -261,15 +265,15 @@ export default function Home() {
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-sm text-zinc-100 underline-offset-4 hover:underline"
+                      className="text-sm text-heading underline-offset-4 hover:underline"
                     >
                       {item.school}
                     </a>
-                    <span className="shrink-0 font-mono text-xs text-zinc-400">
+                    <span className="shrink-0 font-mono text-xs text-muted">
                       {item.period}
                     </span>
                   </div>
-                  <p className="mt-1 text-sm text-zinc-400">{item.program}</p>
+                  <p className="mt-1 text-sm text-muted">{item.program}</p>
                 </div>
               ))}
             </div>
@@ -277,7 +281,7 @@ export default function Home() {
         </div>
 
         <footer className="mt-20">
-          <h2 className="text-sm font-medium uppercase tracking-widest text-zinc-400">
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
             Contact
           </h2>
           <nav
@@ -290,7 +294,7 @@ export default function Home() {
                 href={social.href}
                 target={social.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={social.href.startsWith("mailto:") ? undefined : "noreferrer"}
-                className="text-sm text-zinc-100 underline decoration-zinc-600 underline-offset-4 hover:decoration-zinc-100"
+                className="text-sm text-heading underline decoration-subtle underline-offset-4 hover:decoration-heading"
               >
                 {social.label}
               </a>
