@@ -84,6 +84,10 @@ const education = [
 
 const projects = [
   {
+    name: "followthrough",
+    href: "https://github.com/hbhatty/followthrough",
+  },
+  {
     name: "Grindfolio",
     href: "https://github.com/hbhatty/Grindfolio",
   },
