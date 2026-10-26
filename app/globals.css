@@ -2,8 +2,51 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: dark;
   --background: #0a0a0a;
-  --foreground: #ededed;
+  --foreground: #d4d4d8;
+  --heading: #fafafa;
+  --muted: #a1a1aa;
+  --subtle: #71717a;
+  --border: #3f3f46;
+  --surface: #18181b;
+  --surface-raised: #27272a;
+  --signal-colour: #fbbf24;
+  --signal-glow: rgba(251, 191, 36, 0.45);
+  --heatmap-untracked-bg: #151515;
+  --heatmap-untracked-border: #191919;
+  --heatmap-missing-bg: #171717;
+  --heatmap-missing-border: #363636;
+  --heatmap-zero-bg: #242424;
+  --heatmap-zero-border: #383838;
+  --heatmap-level-1: #3b3b3b;
+  --heatmap-level-2: #6c6c6c;
+  --heatmap-level-3: #a9a9a9;
+  --heatmap-level-4: #f3f3f3;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #faf9f6;
+  --foreground: #3f3f46;
+  --heading: #18181b;
+  --muted: #62626b;
+  --subtle: #71717a;
+  --border: #d4d4d8;
+  --surface: #f0efec;
+  --surface-raised: #e4e4e7;
+  --signal-colour: #b45309;
+  --signal-glow: rgba(180, 83, 9, 0.35);
+  --heatmap-untracked-bg: #f0efec;
+  --heatmap-untracked-border: #e9e8e5;
+  --heatmap-missing-bg: #faf9f6;
+  --heatmap-missing-border: #b6b6bd;
+  --heatmap-zero-bg: #e4e4e7;
+  --heatmap-zero-border: #b6b6bd;
+  --heatmap-level-1: #b4b4bc;
+  --heatmap-level-2: #85858f;
+  --heatmap-level-3: #55555f;
+  --heatmap-level-4: #27272a;
 }
 
 @keyframes cursor-blink {
@@ -26,6 +69,12 @@ section[id] {
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-heading: var(--heading);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -35,4 +84,53 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   margin: 0;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin-block: -6px;
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { background: var(--surface); color: var(--heading); }
+.theme-toggle:focus-visible { outline: 2px solid var(--muted); outline-offset: 3px; }
+.theme-toggle[aria-disabled="true"] { cursor: progress; }
+.theme-bat { transition: color 0.2s ease, filter 0.2s ease; }
+.theme-toggle:hover .theme-bat { color: var(--signal-colour); filter: drop-shadow(0 0 6px var(--signal-glow)); }
+[data-theme="light"] .theme-toggle {
+  color: var(--muted);
+}
+[data-theme="light"] .theme-toggle:hover .theme-bat { filter: drop-shadow(0 0 5px var(--signal-glow)); }
+.theme-toggle[aria-disabled="true"] .theme-bat { animation: signal-ignite 700ms ease-out; }
+@keyframes signal-ignite {
+  0%, 100% { color: var(--signal-colour); transform: scale(1); filter: drop-shadow(0 0 4px var(--signal-glow)); }
+  25% { color: var(--signal-colour); transform: scale(1.16); filter: drop-shadow(0 0 10px var(--signal-glow)) drop-shadow(0 0 3px var(--signal-glow)); }
+}
+.theme-transition .theme-toggle { view-transition-name: theme-signal; }
+.theme-transition::view-transition-group(theme-signal) { animation: none; z-index: 2; }
+.theme-transition::view-transition-old(theme-signal) { display: none; }
+.theme-transition::view-transition-new(theme-signal) {
+  animation: signal-ignite 700ms ease-out;
+  mix-blend-mode: normal;
+}
+.theme-transition::view-transition-old(root),
+.theme-transition::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.theme-transition::view-transition-group(root) { animation: none; }
+.theme-transition::view-transition-new(root) {
+  z-index: 1;
+  mask-image: var(--theme-mask);
+  mask-repeat: no-repeat;
+  mask-size: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .theme-bat { transition: none; }
+  .theme-toggle[aria-disabled="true"] .theme-bat { animation: none; }
+  .theme-transition::view-transition-new(theme-signal) { animation: none; }
 }

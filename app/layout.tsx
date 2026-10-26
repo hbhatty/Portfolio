@@ -28,7 +28,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          (() => {
+            let preference;
+            try { preference = localStorage.getItem("portfolio-theme"); } catch {}
+            document.documentElement.dataset.theme =
+              preference === "light" || (preference !== "dark" && matchMedia("(prefers-color-scheme: light)").matches)
+                ? "light" : "dark";
+          })();
+        ` }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
