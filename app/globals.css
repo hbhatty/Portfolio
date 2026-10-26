@@ -112,6 +112,10 @@ body {
   0%, 100% { color: var(--signal-colour); transform: scale(1); filter: drop-shadow(0 0 4px var(--signal-glow)); }
   25% { color: var(--signal-colour); transform: scale(1.16); filter: drop-shadow(0 0 10px var(--signal-glow)) drop-shadow(0 0 3px var(--signal-glow)); }
 }
+/* The reveal owns the theme change; avoid hundreds of competing cell colour transitions. */
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after { transition: none !important; }
 .theme-transition .theme-toggle { view-transition-name: theme-signal; }
 .theme-transition::view-transition-group(theme-signal) { animation: none; z-index: 2; }
 .theme-transition::view-transition-old(theme-signal) { display: none; }
