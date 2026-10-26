@@ -97,8 +97,9 @@ body {
 .theme-toggle:hover { background: var(--surface); color: var(--heading); }
 .theme-toggle:focus-visible { outline: 2px solid var(--muted); outline-offset: 3px; }
 .theme-toggle[aria-disabled="true"] { cursor: progress; }
-.theme-moon, [data-theme="light"] .theme-sun { display: none; }
-[data-theme="light"] .theme-moon { display: block; }
+.theme-bat { transition: color 0.2s ease, filter 0.2s ease; }
+.theme-toggle:hover .theme-bat { color: #fbbf24; filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.45)); }
+[data-theme="light"] .theme-toggle:hover .theme-bat { color: #b45309; filter: drop-shadow(0 0 5px rgba(180, 83, 9, 0.35)); }
 .theme-transition::view-transition-old(root),
 .theme-transition::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 .theme-transition::view-transition-group(root) { animation: none; }

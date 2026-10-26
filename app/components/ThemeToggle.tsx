@@ -112,8 +112,7 @@ export default function ThemeToggle() {
   const label = `Switch to ${light ? "dark" : "light"} theme`;
   return (
     <button type="button" className="theme-toggle" aria-label={label} title={label} aria-disabled={busy} onClick={(event) => toggleTheme(event.currentTarget)}>
-      <svg className="theme-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" /></svg>
-      <svg className="theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5Z" /></svg>
+      <svg className="theme-bat" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" /><path d="M12 16.35 C10.61 14.05 9.08 13.91 7.83 14.75 C7.97 13.15 6.57 11.97 4.49 12.52 C5.74 10.85 5.39 9.04 4 7.65 C6.78 8.62 8.24 9.46 9.98 9.67 L10.54 7.72 L11.44 9.04 L12.56 9.04 L13.46 7.72 L14.02 9.67 C15.76 9.46 17.22 8.62 20 7.65 C18.61 9.04 18.26 10.85 19.51 12.52 C17.43 11.97 16.03 13.15 16.17 14.75 C14.92 13.91 13.39 14.05 12 16.35 Z" fill="currentColor" /></svg>
     </button>
   );
 }
