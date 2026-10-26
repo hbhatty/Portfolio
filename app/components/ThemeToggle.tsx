@@ -47,11 +47,12 @@ export default function ThemeToggle() {
     const root = document.documentElement;
     const next = root.dataset.theme === "light" ? "dark" : "light";
     const update = () => {
-      if (!mounted.current) return;
       root.dataset.theme = next;
       preference = next;
-      setLight(next === "light");
       try { localStorage.setItem("portfolio-theme", next); } catch { /* Keep the in-memory choice when storage is unavailable. */ }
+      if (mounted.current) {
+        setLight(next === "light");
+      }
     };
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reduced.matches || !document.startViewTransition || !root.animate) {
@@ -92,9 +93,8 @@ export default function ThemeToggle() {
         { duration: 700, easing: "cubic-bezier(.4,0,.2,1)", pseudoElement: "::view-transition-new(root)", fill: "forwards" },
       );
       await animation.current.finished;
-    } catch (error) {
-      // Skipped transitions reject ready; the theme update still completes.
-      if (!(error instanceof DOMException && error.name === "AbortError")) throw error;
+    } catch {
+      // Skipped or unsupported transitions reject ready; the theme update still completes.
     } finally {
       transition.skipTransition();
       await transition.finished.catch(() => {});

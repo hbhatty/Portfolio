@@ -11,6 +11,8 @@
   --border: #3f3f46;
   --surface: #18181b;
   --surface-raised: #27272a;
+  --signal-colour: #fbbf24;
+  --signal-glow: rgba(251, 191, 36, 0.45);
   --heatmap-untracked-bg: #151515;
   --heatmap-untracked-border: #191919;
   --heatmap-missing-bg: #171717;
@@ -33,6 +35,8 @@
   --border: #d4d4d8;
   --surface: #f0efec;
   --surface-raised: #e4e4e7;
+  --signal-colour: #b45309;
+  --signal-glow: rgba(180, 83, 9, 0.35);
   --heatmap-untracked-bg: #f0efec;
   --heatmap-untracked-border: #e9e8e5;
   --heatmap-missing-bg: #faf9f6;
@@ -83,8 +87,6 @@ body {
 }
 
 .theme-toggle {
-  --signal-colour: #fbbf24;
-  --signal-glow: rgba(251, 191, 36, 0.45);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -102,8 +104,7 @@ body {
 .theme-bat { transition: color 0.2s ease, filter 0.2s ease; }
 .theme-toggle:hover .theme-bat { color: var(--signal-colour); filter: drop-shadow(0 0 6px var(--signal-glow)); }
 [data-theme="light"] .theme-toggle {
-  --signal-colour: #b45309;
-  --signal-glow: rgba(180, 83, 9, 0.35);
+  color: var(--muted);
 }
 [data-theme="light"] .theme-toggle:hover .theme-bat { filter: drop-shadow(0 0 5px var(--signal-glow)); }
 .theme-toggle[aria-disabled="true"] .theme-bat { animation: signal-ignite 700ms ease-out; }
@@ -114,7 +115,10 @@ body {
 .theme-transition .theme-toggle { view-transition-name: theme-signal; }
 .theme-transition::view-transition-group(theme-signal) { animation: none; z-index: 2; }
 .theme-transition::view-transition-old(theme-signal) { display: none; }
-.theme-transition::view-transition-new(theme-signal) { animation: none; mix-blend-mode: normal; }
+.theme-transition::view-transition-new(theme-signal) {
+  animation: signal-ignite 700ms ease-out;
+  mix-blend-mode: normal;
+}
 .theme-transition::view-transition-old(root),
 .theme-transition::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 .theme-transition::view-transition-group(root) { animation: none; }
@@ -128,4 +132,5 @@ body {
   html { scroll-behavior: auto; }
   .theme-bat { transition: none; }
   .theme-toggle[aria-disabled="true"] .theme-bat { animation: none; }
+  .theme-transition::view-transition-new(theme-signal) { animation: none; }
 }
